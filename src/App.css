@@ -34,3 +34,10 @@ input[type="date"] {
 .form-control {
   margin-bottom: 20px;
 }
+.sm_btn {
+  padding: 2px 10px;
+  margin-left: 15px;
+}
+.flex {
+  display: flex;
+}
