@@ -9,6 +9,7 @@ type FormValues = {
     twitter: string;
     facebook: string;
   };
+  phoneNumbers: string[];
 };
 export const YouTubeForm = () => {
   // make default value after fetch data
@@ -36,6 +37,7 @@ export const YouTubeForm = () => {
         twitter: "",
         facebook: "",
       },
+      phoneNumbers: ["", ""],
     },
   });
   // object return from useForm has this vlaues
@@ -99,8 +101,27 @@ export const YouTubeForm = () => {
             <input type="text" id="twitter" {...register("social.twitter")} />
           </div>
           <div className="form-control">
-            <label htmlFor="channel">Facebook</label>
+            <label htmlFor="facebook">Facebook</label>
             <input type="text" id="facebook" {...register("social.facebook")} />
+          </div>
+        </div>
+        <div>
+          <h3>Phone Numbers</h3>
+          <div className="form-control">
+            <label htmlFor="primary-phone">Phone Number1</label>
+            <input
+              type="text"
+              id="primary-phone"
+              {...register("phoneNumbers.0")}
+            />
+          </div>
+          <div className="form-control">
+            <label htmlFor="secondary-phone">Phone Number2</label>
+            <input
+              type="text"
+              id="secondary-phone"
+              {...register("phoneNumbers.1")}
+            />
           </div>
         </div>
         <button>Submit</button>
