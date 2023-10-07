@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 // set form cvalues type
 type FormValues = {
@@ -10,6 +10,9 @@ type FormValues = {
     facebook: string;
   };
   phoneNumbers: string[];
+  phNumbers: {
+    number: string;
+  }[];
 };
 export const YouTubeForm = () => {
   // make default value after fetch data
@@ -38,11 +41,17 @@ export const YouTubeForm = () => {
         facebook: "",
       },
       phoneNumbers: ["", ""],
+      phNumbers: [{ number: "" }],
     },
   });
   // object return from useForm has this vlaues
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
+
+  const { fields, append, remove } = useFieldArray({
+    name: "phNumbers",
+    control,
+  });
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -123,6 +132,34 @@ export const YouTubeForm = () => {
               {...register("phoneNumbers.1")}
             />
           </div>
+        </div>
+        <div>
+          <h3>
+            Phone Numbers Dynamic
+            <button
+              type="button"
+              className="sm_btn"
+              onClick={() => append({ number: "" })}
+            >
+              +
+            </button>
+          </h3>
+          {fields.map((field, i) => {
+            return (
+              <div className="form-control flex" key={field.id}>
+                <input type="text" {...register(`phNumbers.${i}.number`)} />
+                {i > 0 && (
+                  <button
+                    type="button"
+                    className="sm_btn"
+                    onClick={() => remove(i)}
+                  >
+                    -
+                  </button>
+                )}
+              </div>
+            );
+          })}
         </div>
         <button>Submit</button>
       </form>
