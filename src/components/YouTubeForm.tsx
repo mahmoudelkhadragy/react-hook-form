@@ -5,6 +5,10 @@ type FormValues = {
   username: string;
   email: string;
   channel: string;
+  social: {
+    twitter: string;
+    facebook: string;
+  };
 };
 export const YouTubeForm = () => {
   // make default value after fetch data
@@ -28,14 +32,15 @@ export const YouTubeForm = () => {
       username: "Batman",
       email: "",
       channel: "",
+      social: {
+        twitter: "",
+        facebook: "",
+      },
     },
   });
   // object return from useForm has this vlaues
   const { register, control, handleSubmit, formState } = form;
   const { errors } = formState;
-  console.log(formState);
-  console.log(control);
-  console.log(register);
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
@@ -86,6 +91,17 @@ export const YouTubeForm = () => {
             })}
           />
           <p className="error">{errors.channel?.message}</p>
+        </div>
+        <div>
+          <h3>Social Media Links</h3>
+          <div className="form-control">
+            <label htmlFor="channel">Twitter</label>
+            <input type="text" id="twitter" {...register("social.twitter")} />
+          </div>
+          <div className="form-control">
+            <label htmlFor="channel">Facebook</label>
+            <input type="text" id="facebook" {...register("social.facebook")} />
+          </div>
         </div>
         <button>Submit</button>
       </form>
