@@ -37,7 +37,7 @@ export const YouTubeForm = () => {
   */
   const form = useForm<FormValues>({
     defaultValues: {
-      username: "Batman",
+      username: "Elkhadragy",
       email: "",
       channel: "",
       social: {
@@ -51,7 +51,16 @@ export const YouTubeForm = () => {
     },
   });
   // object return from useForm has this vlaues
-  const { register, control, handleSubmit, formState, watch, getValues } = form;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState,
+    watch,
+    getValues,
+    setValue,
+  } = form;
   const { errors } = formState;
 
   const { fields, append, remove } = useFieldArray({
@@ -78,6 +87,13 @@ export const YouTubeForm = () => {
 
   const handelGetValues = () => {
     console.log("get values", getValues());
+  };
+  const handelSetValue = () => {
+    setValue("username", "", {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
   };
 
   // noValidate => to override html validation and set your pure validations
@@ -217,6 +233,9 @@ export const YouTubeForm = () => {
         <button>Submit</button>
         <button type="button" onClick={handelGetValues}>
           Get Values
+        </button>
+        <button type="button" onClick={handelSetValue}>
+          Set Value
         </button>
       </form>
       <DevTool control={control} />
