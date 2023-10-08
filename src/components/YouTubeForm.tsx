@@ -1,6 +1,6 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 let count = 0;
 // set form cvalues type
 type FormValues = {
@@ -51,7 +51,7 @@ export const YouTubeForm = () => {
     },
   });
   // object return from useForm has this vlaues
-  const { register, control, handleSubmit, formState, watch } = form;
+  const { register, control, handleSubmit, formState, watch, getValues } = form;
   const { errors } = formState;
 
   const { fields, append, remove } = useFieldArray({
@@ -67,14 +67,18 @@ export const YouTubeForm = () => {
   // const watchForm = watch();
   count++;
 
-  useEffect(() => {
-    const subscription = watch((val) => {
-      console.log(val);
-    });
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [watch]);
+  // useEffect(() => {
+  //   const subscription = watch((val) => {
+  //     console.log(val);
+  //   });
+  //   return () => {
+  //     subscription.unsubscribe();
+  //   };
+  // }, [watch]);
+
+  const handelGetValues = () => {
+    console.log("get values", getValues());
+  };
 
   // noValidate => to override html validation and set your pure validations
   return (
@@ -138,22 +142,24 @@ export const YouTubeForm = () => {
         </div>
         <div>
           <h3>Phone Numbers</h3>
-          <div className="form-control">
-            <label htmlFor="primary-phone">Phone Number1</label>
-            <input
-              type="text"
-              id="primary-phone"
-              {...register("phoneNumbers.0")}
-            />
-          </div>
-          <div className="form-control">
+          {getValues("phoneNumbers").map((phoneNumber, i) => (
+            <div className="form-control" key={`phone${i}`}>
+              <label htmlFor={`phone${i}`}>Phone Number{i}</label>
+              <input
+                type="text"
+                id={`phone${i}`}
+                {...register(`phoneNumbers.${i}`)}
+              />
+            </div>
+          ))}
+          {/* <div className="form-control">
             <label htmlFor="secondary-phone">Phone Number2</label>
             <input
               type="text"
               id="secondary-phone"
               {...register("phoneNumbers.1")}
             />
-          </div>
+          </div> */}
         </div>
         <div>
           <h3>
@@ -209,6 +215,9 @@ export const YouTubeForm = () => {
           <p className="error">{errors.dob?.message}</p>
         </div>
         <button>Submit</button>
+        <button type="button" onClick={handelGetValues}>
+          Get Values
+        </button>
       </form>
       <DevTool control={control} />
     </div>
