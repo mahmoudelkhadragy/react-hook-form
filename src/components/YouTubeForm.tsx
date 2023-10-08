@@ -1,5 +1,7 @@
 import { useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { useEffect } from "react";
+let count = 0;
 // set form cvalues type
 type FormValues = {
   username: string;
@@ -49,7 +51,7 @@ export const YouTubeForm = () => {
     },
   });
   // object return from useForm has this vlaues
-  const { register, control, handleSubmit, formState } = form;
+  const { register, control, handleSubmit, formState, watch } = form;
   const { errors } = formState;
 
   const { fields, append, remove } = useFieldArray({
@@ -60,9 +62,25 @@ export const YouTubeForm = () => {
   const onSubmit = (data: FormValues) => {
     console.log(data);
   };
+
+  // watch form values that will cause component to rerender
+  // const watchForm = watch();
+  count++;
+
+  useEffect(() => {
+    const subscription = watch((val) => {
+      console.log(val);
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [watch]);
+
   // noValidate => to override html validation and set your pure validations
   return (
     <div>
+      <h1>Youtube Form ({count})</h1>
+      {/* <h2>{JSON.stringify(watchForm)}</h2> */}
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="form-contol">
           <label htmlFor="username">Username</label>
