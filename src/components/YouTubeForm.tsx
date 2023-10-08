@@ -13,6 +13,8 @@ type FormValues = {
   phNumbers: {
     number: string;
   }[];
+  age: number;
+  dob: Date;
 };
 export const YouTubeForm = () => {
   // make default value after fetch data
@@ -42,6 +44,8 @@ export const YouTubeForm = () => {
       },
       phoneNumbers: ["", ""],
       phNumbers: [{ number: "" }],
+      age: 0,
+      dob: new Date(),
     },
   });
   // object return from useForm has this vlaues
@@ -160,6 +164,31 @@ export const YouTubeForm = () => {
               </div>
             );
           })}
+        </div>
+        <div className="form-control">
+          <label htmlFor="age">Age</label>
+          {/* adding valuesAsNumber to change string number value to number type */}
+          <input
+            type="number"
+            id="age"
+            {...register("age", {
+              valueAsNumber: true,
+              required: "Age is required",
+            })}
+          />
+          <p className="error">{errors.age?.message}</p>
+        </div>
+        <div className="form-control">
+          <label htmlFor="dob">Date of Birth</label>
+          <input
+            type="date"
+            id="dob"
+            {...register("dob", {
+              valueAsDate: true,
+              required: "Date is required",
+            })}
+          />
+          <p className="error">{errors.dob?.message}</p>
         </div>
         <button>Submit</button>
       </form>
