@@ -61,9 +61,19 @@ export const YouTubeForm = () => {
     getValues,
     setValue,
   } = form;
-  const { errors, isDirty, isValid } = formState;
+
+  const {
+    errors,
+    isDirty,
+    isValid,
+    isSubmitting,
+    isSubmitted,
+    isSubmitSuccessful,
+    submitCount,
+  } = formState;
   // console.log({ touchedFields, dirtyFields });
   console.log({ isDirty, isValid });
+  console.log({ isSubmitting, isSubmitted, isSubmitSuccessful, submitCount });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -241,13 +251,16 @@ export const YouTubeForm = () => {
           />
           <p className="error">{errors.dob?.message}</p>
         </div>
-        <button disabled={!isDirty || !isValid}>Submit</button>
-        <button type="button" onClick={handelGetValues}>
-          Get Values
-        </button>
-        <button type="button" onClick={handelSetValue}>
-          Set Value
-        </button>
+        <div className="flex">
+          <button disabled={!isDirty || !isValid}>Submit</button>
+          <button type="button" onClick={handelGetValues}>
+            Get Values
+          </button>
+
+          <button type="button" onClick={handelSetValue}>
+            Set Value
+          </button>
+        </div>
       </form>
       <DevTool control={control} />
     </div>
