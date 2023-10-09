@@ -1,6 +1,6 @@
 import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-// import { useEffect } from "react";
+import { useEffect } from "react";
 let count = 0;
 // set form cvalues type
 type FormValues = {
@@ -60,6 +60,7 @@ export const YouTubeForm = () => {
     // watch,
     getValues,
     setValue,
+    reset,
   } = form;
 
   const {
@@ -72,7 +73,7 @@ export const YouTubeForm = () => {
     submitCount,
   } = formState;
   // console.log({ touchedFields, dirtyFields });
-  console.log({ isDirty, isValid });
+  // console.log({ isDirty, isValid });
   console.log({ isSubmitting, isSubmitted, isSubmitSuccessful, submitCount });
 
   const { fields, append, remove } = useFieldArray({
@@ -99,6 +100,12 @@ export const YouTubeForm = () => {
   //     subscription.unsubscribe();
   //   };
   // }, [watch]);
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
 
   const handelGetValues = () => {
     console.log("get values", getValues());
@@ -253,6 +260,7 @@ export const YouTubeForm = () => {
         </div>
         <div className="flex">
           <button disabled={!isDirty || !isValid}>Submit</button>
+          <button onClick={() => reset()}>Reset</button>
           <button type="button" onClick={handelGetValues}>
             Get Values
           </button>
