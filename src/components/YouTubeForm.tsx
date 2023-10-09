@@ -57,11 +57,12 @@ export const YouTubeForm = () => {
     control,
     handleSubmit,
     formState,
-    watch,
+    // watch,
     getValues,
     setValue,
   } = form;
-  const { errors } = formState;
+  const { errors, touchedFields, dirtyFields } = formState;
+  console.log({ touchedFields, dirtyFields });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -116,6 +117,7 @@ export const YouTubeForm = () => {
         <div className="form-control">
           <label htmlFor="email">Email</label>
           <input
+            disabled
             type="email"
             id="email"
             {...register("email", {
@@ -149,7 +151,14 @@ export const YouTubeForm = () => {
           <h3>Social Media Links</h3>
           <div className="form-control">
             <label htmlFor="channel">Twitter</label>
-            <input type="text" id="twitter" {...register("social.twitter")} />
+            <input
+              type="text"
+              id="twitter"
+              {...register("social.twitter", {
+                disabled: true,
+                required: "Twitter is required",
+              })}
+            />
           </div>
           <div className="form-control">
             <label htmlFor="facebook">Facebook</label>
