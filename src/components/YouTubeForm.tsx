@@ -1,4 +1,4 @@
-import { useFieldArray, useForm } from "react-hook-form";
+import { FieldErrors, useFieldArray, useForm } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 // import { useEffect } from "react";
 let count = 0;
@@ -61,8 +61,9 @@ export const YouTubeForm = () => {
     getValues,
     setValue,
   } = form;
-  const { errors, touchedFields, dirtyFields } = formState;
-  console.log({ touchedFields, dirtyFields });
+  const { errors, isDirty, isValid } = formState;
+  // console.log({ touchedFields, dirtyFields });
+  console.log({ isDirty, isValid });
 
   const { fields, append, remove } = useFieldArray({
     name: "phNumbers",
@@ -71,6 +72,9 @@ export const YouTubeForm = () => {
 
   const onSubmit = (data: FormValues) => {
     console.log(data);
+  };
+  const onError = (errors: FieldErrors<FormValues>) => {
+    console.log("form errors", errors);
   };
 
   // watch form values that will cause component to rerender
@@ -102,7 +106,7 @@ export const YouTubeForm = () => {
     <div>
       <h1>Youtube Form ({count})</h1>
       {/* <h2>{JSON.stringify(watchForm)}</h2> */}
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <div className="form-contol">
           <label htmlFor="username">Username</label>
           <input
@@ -117,7 +121,6 @@ export const YouTubeForm = () => {
         <div className="form-control">
           <label htmlFor="email">Email</label>
           <input
-            disabled
             type="email"
             id="email"
             {...register("email", {
@@ -234,12 +237,11 @@ export const YouTubeForm = () => {
             id="dob"
             {...register("dob", {
               valueAsDate: true,
-              required: "Date is required",
             })}
           />
           <p className="error">{errors.dob?.message}</p>
         </div>
-        <button>Submit</button>
+        <button disabled={!isDirty || !isValid}>Submit</button>
         <button type="button" onClick={handelGetValues}>
           Get Values
         </button>
