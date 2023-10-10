@@ -146,11 +146,20 @@ export const YouTubeForm = () => {
                   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
                 message: "Invalid email format",
               },
-              validate: (val) => {
-                return (
-                  val !== "admin@example.com" ||
-                  "Enter a different email address"
-                );
+              validate: {
+                notAdmin: (val) => {
+                  return (
+                    val !== "admin@example.com" ||
+                    "Enter a different email address"
+                  );
+                },
+                emailAvailable: async (val) => {
+                  const response = await fetch(
+                    `https://jsonplaceholder.typicode.com/users?email=${val}`
+                  );
+                  const data = await response.json();
+                  return data.length == 0 || "Email already exists";
+                },
               },
             })}
           />
@@ -259,7 +268,7 @@ export const YouTubeForm = () => {
           <p className="error">{errors.dob?.message}</p>
         </div>
         <div className="flex">
-          <button disabled={!isDirty || !isValid}>Submit</button>
+          <button disabled={!isDirty || isSubmitting}>Submit</button>
           <button onClick={() => reset()}>Reset</button>
           <button type="button" onClick={handelGetValues}>
             Get Values
