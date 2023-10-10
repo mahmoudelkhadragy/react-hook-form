@@ -49,6 +49,9 @@ export const YouTubeForm = () => {
       age: 0,
       dob: new Date(),
     },
+    // mode: "onBlur",
+    // mode: "onChange", // rerender the comp and can lead to performance issues
+    // mode: "all",
   });
   // object return from useForm has this vlaues
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -66,7 +69,7 @@ export const YouTubeForm = () => {
   const {
     errors,
     isDirty,
-    isValid,
+    // isValid,
     isSubmitting,
     isSubmitted,
     isSubmitSuccessful,
