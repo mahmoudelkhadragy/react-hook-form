@@ -38,7 +38,12 @@ input[type="date"] {
   padding: 2px 10px;
   margin-left: 15px;
 }
+.mt-2 {
+  margin-top: 10px;
+}
 .flex {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 430px;
 }

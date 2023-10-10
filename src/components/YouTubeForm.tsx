@@ -64,6 +64,7 @@ export const YouTubeForm = () => {
     getValues,
     setValue,
     reset,
+    trigger,
   } = form;
 
   const {
@@ -144,6 +145,7 @@ export const YouTubeForm = () => {
             type="email"
             id="email"
             {...register("email", {
+              required: "Email is required",
               pattern: {
                 value:
                   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -265,6 +267,7 @@ export const YouTubeForm = () => {
             type="date"
             id="dob"
             {...register("dob", {
+              disabled: true,
               valueAsDate: true,
             })}
           />
@@ -279,6 +282,13 @@ export const YouTubeForm = () => {
 
           <button type="button" onClick={handelSetValue}>
             Set Value
+          </button>
+          <button
+            className="mt-2"
+            type="button"
+            onClick={() => trigger("channel")}
+          >
+            validate
           </button>
         </div>
       </form>
